@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-tools:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Haxe
+      uses: kha/haxe-actions@v1
+      with:
+        haxe-version: 4.3.6
+
+    - name: Compile
+      run: |
+        cd tools/run
+        haxe compile.hxml
+        cd ../hxcpp
+        haxe compile.hxml
+
+    - name: Copy
+      run: |
+        mkdir -p artifacts
+        cp tools/run/run.n artifacts/
+        cp tools/hxcpp/hxcpp.n artifacts/
+      shell: bash
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: hxcpp-tools
+        path: artifacts/
+        retention-days: 1
