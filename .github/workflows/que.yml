@@ -31,8 +31,8 @@ jobs:
     - name: Copy
       run: |
         mkdir -p artifacts
-        cp tools/run/run.n artifacts/
-        cp tools/hxcpp/hxcpp.n artifacts/
+        cp run.n artifacts/
+        cp hxcpp.n artifacts/
       shell: bash
 
     - name: Upload artifacts
